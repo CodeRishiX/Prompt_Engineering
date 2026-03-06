@@ -81,19 +81,38 @@ The same AI, asked differently, gives completely different results:
 Same AI. Completely different results. **That's the power of Prompt Engineering.**
 
 ---
+A good prompt usually contains:
 
-## The 4 Levers Framework
+1. Role
+2. Task
+3. Context
+4. Output Format
+
+
 
 ```
 PROMPT = Instruction + Context + Format + Persona
 ```
 
+## The 4 Levers Framework
 | Lever | Purpose | Example |
 |---|---|---|
 | **Instruction** | What to do | "Summarize this article" |
 | **Context** | What to work on | The actual article text |
 | **Format** | How to respond | "3 bullet points, each under 20 words" |
 | **Persona** | Who the model is | "You are a technical writer for developers" |
+
+### Core Elements of a Good Prompt
+
+| Element | What it means | Example |
+|---------|---------------|---------|
+| **Role** | Tell AI who to act as | *"Act as a Python expert..."* |
+| **Task** | What you want it to do | *"...explain decorators..."* |
+| **Format** | How you want the output | *"...in bullet points."* |
+| **Tone** | The style of response | *"...keep it simple for beginners."* |
+| **Context** | Background information | *"I am building a Flask app."* |
+
+---
 
 ### Key Insight
 > Most bad prompts fail not because the instruction is wrong,
