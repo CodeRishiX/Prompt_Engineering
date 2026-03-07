@@ -18,6 +18,16 @@
 | 14 | Template | Fill-in-the-blank structure |
 ---
 
+
+# Shot Meaning
+
+Shot = One example given to the model before the final task.
+
+0 examples → Zero-shot
+1 example → One-shot
+2+ examples → Few-shot
+
+---
 # Zero-Shot Prompting
 
 
