@@ -121,3 +121,5 @@ PROMPT = Instruction + Context + Format + Persona
 ### Rule of Thumb
 If you can't predict the *shape* of the output before sending the prompt,
 your prompt is under-specified.
+
+
