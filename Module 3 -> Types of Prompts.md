@@ -28,7 +28,7 @@ Shot = One example given to the model before the final task.
 2+ examples → Few-shot
 
 ---
-# Zero-Shot Prompting
+# Type 1 -- Zero-Shot Prompting
 
 
 ## Definition
@@ -79,7 +79,7 @@ That's where the **next technique** comes in.
 
 
 
-# Few-Shot Prompting
+# Type - 2 Few-Shot Prompting
 
 ---
 
@@ -207,7 +207,7 @@ Few-Shot is your tool to **enforce that consistency.**
 > **Model learns YOUR pattern. Solves the biggest weakness of Zero-Shot.**
 ---
 
-# Chain-of-Thought (CoT) Prompting
+# type 3 -Chain-of-Thought (CoT) Prompting
 
 ---
 
@@ -522,4 +522,183 @@ All 4 types working together.
 
 ---
 
+# Type 5 — Instruction Prompting
 
+---
+
+## Definition
+
+Instruction Prompting means you write **extremely clear, specific, and
+unambiguous instructions** for exactly what you want the model to do.
+
+Nothing is left for the model to **assume or guess.**
+
+> **"Instruction"** = every detail of the task spelled out completely.
+
+---
+
+## Simple Analogy
+
+Imagine giving directions to someone in an unknown city.
+
+**Vague directions ❌**
+```
+"Go straight, then turn somewhere near the market."
+```
+They will get lost. 100%.
+
+**Clear directions ✅**
+```
+"Go straight for 2 blocks. Turn left at the red traffic light.
+ Walk 50 meters. The building is on your right."
+```
+They will reach exactly where you want.
+
+> Instruction Prompting = giving the model **clear directions**, not vague ones.
+
+---
+
+## Example 1 — Vague Instruction ❌
+
+**Prompt:**
+```
+Write something about climate change.
+```
+**Output:**
+```
+Climate change is one of the most pressing issues of our time...
+(Could be an essay, could be a poem, could be 5 lines or 50 lines,
+formal or casual — you have no idea what you'll get)
+```
+❌ Unpredictable. Unusable in production.
+
+---
+
+## Example 2 — Clear Instruction ✅
+
+**Prompt:**
+```
+Write a 3 sentence summary about climate change.
+- Use simple English
+- Target audience is high school students
+- Do not use technical jargon
+- End with one actionable tip students can do today
+```
+**Output:**
+```
+Climate change means the Earth is getting warmer because of
+gases released by cars, factories, and deforestation.
+This warming is causing extreme weather events like floods,
+wildfires, and rising sea levels around the world.
+You can help by reducing electricity use, eating less meat,
+and planting trees in your community.
+```
+✅ Predictable. Consistent. Production ready.
+
+---
+
+## The 5 Rules of Good Instruction Prompting
+
+### Rule 1 — Be Specific About Length
+```
+❌ "Write a short summary"
+✅ "Write a summary in exactly 3 sentences"
+```
+
+### Rule 2 — Be Specific About Audience
+```
+❌ "Explain machine learning"
+✅ "Explain machine learning to a 15 year old with no coding background"
+```
+
+### Rule 3 — Tell It What NOT to Do
+```
+❌ "Explain the bug in my code"
+✅ "Explain the bug in my code. Do not fix it. Do not rewrite it.
+    Only explain what is wrong and why."
+```
+
+### Rule 4 — One Task at a Time
+```
+❌ "Summarize this, translate it, and make it formal"
+
+✅ Step 1: "Summarize this in 3 sentences"
+   Step 2: "Now translate the summary to Hindi"
+   Step 3: "Now make the Hindi version formal"
+```
+
+### Rule 5 — Use Constraints
+```
+❌ "List some Python tips"
+✅ "List exactly 5 Python tips for beginners.
+    Each tip must be 1 sentence.
+    Start each tip with an action verb."
+```
+
+---
+
+## Real Production Example — Customer Support Bot
+
+**Prompt:**
+```
+You are a customer support agent for an e-commerce company.
+
+When a customer sends a complaint, do the following:
+1. Acknowledge their issue in 1 sentence
+2. Apologize in 1 sentence
+3. Give a solution in 1-2 sentences
+4. End with "Is there anything else I can help you with?"
+
+Rules:
+- Never use the word "unfortunately"
+- Never make promises about specific dates unless given that information
+- Always stay polite and professional
+- Response must be under 80 words total
+
+Customer message: "I ordered 5 days ago and my package still hasn't arrived."
+```
+**Output:**
+```
+I understand your package has not arrived after 5 days.
+We sincerely apologize for this delay.
+Please share your order ID and we will immediately investigate
+the status and ensure it reaches you as soon as possible.
+Is there anything else I can help you with?
+```
+✅ Every rule followed. Every time. At scale.
+
+---
+
+## Why This Matters for Evaluation
+
+When you evaluate LLM outputs — **bad instructions = unfair evaluation.**
+```
+Vague instruction   →  Unpredictable output  →
+You don't know if the model failed or the instruction failed.
+
+Clear instruction   →  Predictable output    →
+You know exactly what to measure and where it went wrong.
+```
+
+> **You cannot evaluate what you cannot define.**
+> Instruction Prompting forces you to **define success clearly.**
+
+---
+
+## 📝 One Line for Your Notes
+
+> **Instruction Prompting = Leave nothing for the model to guess.**
+> **Specify length, audience, format, tone, and constraints explicitly.**
+> **Vague instructions = unpredictable outputs = impossible to evaluate.**
+
+---
+
+## Recap — 5 Types So Far
+
+| Type | One Line Summary |
+|------|-----------------|
+| **Zero-Shot** | No examples, just ask |
+| **Few-Shot** | Show examples, model follows your pattern |
+| **Chain-of-Thought** | Think step by step, shows reasoning |
+| **Role Prompting** | Give model an identity, controls behavior |
+| **Instruction Prompting** | Spell everything out, leave nothing to guess |
