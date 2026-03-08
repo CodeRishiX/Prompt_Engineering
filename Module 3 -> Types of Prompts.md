@@ -363,3 +363,163 @@ That's why CoT matters for your role. Not for math. For transparency.
 > **It shows reasoning before the answer.**
 > **Makes complex tasks accurate and makes debugging/evaluation easy.**
 > CoT is not just for accuracy — it's for auditability. In evaluation, you need to see WHY the model decided, not just WHAT it decided.
+
+---
+# Type 4 — Role Prompting
+
+## Definition
+> Role Prompting means you tell the model **who to be** before giving it a task.
+> You assign it an identity, expertise, and perspective — and it responds from that role.
+
+**"Role"** = a character, expert, or persona the model plays throughout the conversation.
+
+---
+
+## The Simplest Way to Think About It
+
+Imagine you have **one very smart friend** who can be anything.
+
+You can say:
+- *"Act as a doctor — explain my symptoms"*
+- *"Act as a lawyer — review this contract"*
+- *"Act as a Python expert — review my code"*
+
+Same friend. Same brain. But completely different **tone, depth, vocabulary, and focus** based on the role you give.
+
+That is Role Prompting.
+
+---
+
+## Example 1 — Without Role ❌
+
+```
+Prompt:
+Explain what an API is.
+
+Output:
+An API (Application Programming Interface) is a way for 
+two applications to communicate with each other...
+(generic, surface level, no depth)
+```
+
+---
+
+## Example 2 — With Role ✅
+
+```
+Prompt:
+You are a senior backend engineer with 15 years of experience.
+Explain what an API is to a junior developer joining your team today.
+
+Output:
+Think of an API like a waiter in a restaurant.
+You (the frontend) sit at the table and tell the waiter (API) what you want.
+The waiter goes to the kitchen (backend/database), gets your order, 
+and brings it back to you.
+You never go into the kitchen yourself. The API handles that boundary.
+
+In technical terms...
+(deep, practical, uses analogy, speaks to a junior dev specifically)
+```
+
+✅ Same question. Completely different quality.
+
+---
+
+## Example 3 — Real Production Use Case
+
+This is how role prompting is used in **real LLM applications:**
+
+```
+Prompt:
+You are a strict JSON validator and data quality engineer.
+Your job is to:
+- Check if the input is valid JSON
+- Identify missing required fields
+- Flag any data type mismatches
+- Never fix the data yourself — only report issues
+
+Required fields: name (string), age (integer), email (string)
+
+Input:
+{
+  "name": "Raj",
+  "age": "twenty-five",
+  "phone": "9876543210"
+}
+```
+
+```
+Output:
+Issues found:
+1. "age" → Expected integer, got string ("twenty-five") ❌
+2. "email" → Required field missing ❌
+3. "phone" → Not a required field, but present (warning only)
+
+Total errors: 2
+```
+
+✅ The role made the model behave like a **strict, focused tool** — not a general chatbot.
+
+---
+
+## Why Role Prompting is Powerful in Production
+
+Without a role the model tries to be helpful to everyone.
+With a role the model becomes **specialized and consistent.**
+
+```
+No Role → Model is a generalist
+          Answers vary in tone, depth, format
+          Hard to predict behavior
+
+With Role → Model is a specialist
+            Consistent tone, depth, format
+            Predictable, auditable behavior ✅
+```
+
+---
+
+## Role Prompting + Other Types Combined
+
+In real systems you never use just one type.
+You combine them:
+
+```
+You are a senior data analyst. (Role)
+
+Classify these support tickets as P1, P2, P3. (Instruction)
+
+P1 = System down, P2 = Feature broken, P3 = Minor (Context)
+
+Example 1: "Site is down for all users" → P1 (Few-Shot)
+Example 2: "PDF export broken" → P2 (Few-Shot)
+
+Think step by step before classifying. (CoT)
+
+Ticket: "Login button missing on mobile app."
+```
+
+This is how **real production prompts** are written.
+All 4 types working together.
+
+---
+
+## One Line to Write in Your Notes
+
+> **Role Prompting = Give the model an identity before the task. It changes tone, depth, focus and makes behavior consistent and predictable in production.**
+
+---
+
+## Quick Recap — 4 Types So Far
+
+| Type | One Line Summary |
+|---|---|
+| Zero-Shot | No examples, just ask |
+| Few-Shot | Show examples, model follows your pattern |
+| Chain-of-Thought | Think step by step, shows reasoning |
+| Role Prompting | Give model an identity, controls behavior |
+
+---
+
+
