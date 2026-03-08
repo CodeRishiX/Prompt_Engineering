@@ -205,3 +205,149 @@ Few-Shot is your tool to **enforce that consistency.**
 
 > **Few-Shot = Give 2–5 examples of input → output before your question.**
 > **Model learns YOUR pattern. Solves the biggest weakness of Zero-Shot.**
+---
+
+# Chain-of-Thought (CoT) Prompting
+
+---
+
+## Definition
+
+Chain-of-Thought means you tell the model to **think step by step**
+before giving the final answer.
+
+Instead of jumping to the answer, the model shows its **full reasoning process**.
+
+> **"Chain"** = a chain of reasoning steps, connected one after another.
+
+---
+
+## Simple Analogy
+
+Imagine you ask a student: *"What is 15% of 280?"*
+
+**Bad student:** Just writes `42` — you have no idea if they understood or guessed.
+
+**Good student** writes:
+- 10% of 280 = 28
+- 5% of 280 = 14
+- 10% + 5% = 15%
+- 28 + 14 = **42**
+
+Same answer. But now you can **see the thinking.**
+If they made a mistake — you can see exactly **where it went wrong.**
+
+That is Chain-of-Thought. **The model = the good student.**
+
+---
+
+## Example 1 — Without CoT ❌
+
+**Prompt:**
+```
+A store has 3 shelves. Each shelf has 12 items.
+They sold 10 items on Monday and 8 items on Tuesday.
+How many items are left?
+```
+**Output:**
+```
+18
+```
+❌ Wrong. And you have no idea why.
+No reasoning shown = no way to debug = **dangerous in production.**
+
+---
+
+## Example 2 — With CoT ✅
+
+**Prompt:**
+```
+A store has 3 shelves. Each shelf has 12 items.
+They sold 10 items on Monday and 8 items on Tuesday.
+How many items are left?
+
+Think step by step.
+```
+**Output:**
+```
+Step 1: Total items = 3 shelves × 12 items = 36 items
+Step 2: Total sold = 10 (Monday) + 8 (Tuesday) = 18 items
+Step 3: Items left = 36 - 18 = 18 items
+
+Answer: 18
+```
+✅ Correct. AND you can see every step.
+If it was wrong — you'd know **exactly which step failed.**
+
+---
+
+## Example 3 — Real LLM Engineer Use Case (Code Review Bot)
+
+**Prompt:**
+```
+You are a senior Python engineer.
+Review this function and decide if it has any bugs.
+Think step by step before giving your verdict.
+
+def calculate_average(numbers):
+    return sum(numbers) / len(numbers)
+```
+**Output:**
+```
+Step 1: The function takes a list called 'numbers'.
+Step 2: It calculates sum(numbers) — this works fine.
+Step 3: It divides by len(numbers) — this will CRASH if the list is empty.
+        ZeroDivisionError will be raised.
+Step 4: There is no check for an empty list.
+
+Verdict: Bug found. Add a check — if not numbers: return 0
+```
+✅ Without CoT the model might just say *"looks fine."*
+With CoT it **caught the bug AND explained why.**
+
+---
+
+## Why This is Critical for Output Evaluation
+
+When you evaluate LLM outputs at scale you need to know:
+- Not just **what** the model answered
+- But **why** it answered that way
+- And **where** the reasoning broke down
+
+CoT gives you that visibility.
+```
+No CoT   →  Black box          →  Hard to evaluate
+With CoT →  Transparent reasoning  →  Easy to evaluate & debug
+```
+
+---
+
+## Magic Phrases That Trigger CoT
+
+| Phrase | When to Use |
+|--------|-------------|
+| `"Think step by step"` | General reasoning |
+| `"Show your work"` | Math / calculations |
+| `"Explain your reasoning before answering"` | Logic / decisions |
+| `"Break this down step by step"` | Complex analysis |
+| `"Walk me through your thinking"` | Debugging tasks |
+
+---
+
+## All 3 Types So Far — Full Comparison
+
+| | Zero-Shot | Few-Shot | Chain-of-Thought |
+|---|-----------|----------|------------------|
+| **Examples given** | None | 2–5 | None needed |
+| **Shows reasoning** | ❌ No | ❌ No | ✅ Yes |
+| **Best for** | Simple tasks | Custom formats | Reasoning & logic |
+| **Evaluation friendly** | ❌ Hard to debug | ⚠️ Medium | ✅ Easy to debug |
+| **Magic phrase** | Just ask | Show examples | "Think step by step" |
+
+---
+
+## 📝 One Line for Your Notes
+
+> **Chain-of-Thought = Tell the model to think step by step.**
+> **It shows reasoning before the answer.**
+> **Makes complex tasks accurate and makes debugging/evaluation easy.**
