@@ -319,7 +319,18 @@ CoT gives you that visibility.
 No CoT   →  Black box          →  Hard to evaluate
 With CoT →  Transparent reasoning  →  Easy to evaluate & debug
 ```
+## The Most Important Use Case for YOUR Job
+-As an LLM Engineer doing evaluation — CoT is not about getting the right answer.
+-It's about seeing the reasoning so you can audit it.
+-Without CoT → Model says "Approve the loan" 
+              You don't know why. You can't audit it.
 
+With CoT →   Step 1: Credit score = 750 ✅
+             Step 2: Debt ratio = 0.3 ✅  
+             Step 3: Employment = stable ✅
+             Decision: Approve ✅
+             Now you can audit every step.
+That's why CoT matters for your role. Not for math. For transparency.
 ---
 
 ## Magic Phrases That Trigger CoT
@@ -351,3 +362,4 @@ With CoT →  Transparent reasoning  →  Easy to evaluate & debug
 > **Chain-of-Thought = Tell the model to think step by step.**
 > **It shows reasoning before the answer.**
 > **Makes complex tasks accurate and makes debugging/evaluation easy.**
+> CoT is not just for accuracy — it's for auditability. In evaluation, you need to see WHY the model decided, not just WHAT it decided.
