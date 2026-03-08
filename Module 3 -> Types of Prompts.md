@@ -702,3 +702,254 @@ You know exactly what to measure and where it went wrong.
 | **Chain-of-Thought** | Think step by step, shows reasoning |
 | **Role Prompting** | Give model an identity, controls behavior |
 | **Instruction Prompting** | Spell everything out, leave nothing to guess |
+
+---
+# Type 6— Negative Prompting
+
+---
+
+## Definition
+
+Negative Prompting means telling the model **what NOT to do,
+what NOT to include, and what NOT to say** in its response.
+
+Instead of only instructing what you want —
+you also explicitly **block what you don't want.**
+
+> **"Negative"** = restrictions, exclusions, boundaries you set on the output.
+
+---
+
+## Simple Analogy
+
+Imagine you order food at a restaurant:
+
+**Normal order:**
+```
+"Give me a burger."
+```
+
+**Order with negatives:**
+```
+"Give me a burger — no onions, no mayo,
+ not too spicy, don't toast the bun."
+```
+
+Same item. But now you get **exactly** what you want
+because you blocked everything you didn't want.
+
+> Negative Prompting = telling the model your **"no onions" list.**
+
+---
+
+## Why It Exists — The Core Problem
+
+Models are trained to be **helpful and elaborate.**
+Left alone they will:
+- Add unnecessary explanations
+- Use filler phrases like *"Great question!"*
+- Go off topic
+- Add disclaimers you don't need
+- Format things their own way
+
+Negative prompting **cuts all of that out.**
+
+---
+
+## Example 1 — Without Negative Prompting ❌
+
+**Prompt:**
+```
+Explain what a REST API is.
+```
+**Output:**
+```
+Great question! A REST API, which stands for Representational
+State Transfer Application Programming Interface, is a very
+important concept in modern software development.
+
+Before I explain, let me give you some background on APIs
+in general...
+
+(300 words of unnecessary padding follow)
+
+I hope this helps! Let me know if you have more questions! 😊
+```
+❌ Verbose. Padded. Full of filler. Unusable in production.
+
+---
+
+## Example 2 — With Negative Prompting ✅
+
+**Prompt:**
+```
+Explain what a REST API is.
+
+Rules:
+- Do not use filler phrases like "Great question" or "I hope this helps"
+- Do not give background history
+- Do not use more than 3 sentences
+- Do not add a closing line
+- Do not use technical jargon
+```
+**Output:**
+```
+A REST API is a way for two applications to communicate
+over the internet using standard HTTP methods like GET, POST,
+PUT and DELETE.
+One application sends a request to a URL and the other
+application sends back data, usually in JSON format.
+It is the most common way to connect a frontend app
+to a backend server.
+```
+✅ Clean. Tight. Exactly 3 sentences. No fluff.
+
+---
+
+## Example 3 — Negative Prompting in Code Generation
+
+**Prompt:**
+```
+Write a Python function to read a CSV file
+and return it as a list of dictionaries.
+
+Rules:
+- Do not use pandas
+- Do not add print statements
+- Do not write example usage
+- Do not add comments
+- Return only the function, nothing else
+```
+**Output:**
+```python
+import csv
+
+def read_csv(filepath):
+    with open(filepath, newline='') as f:
+        return list(csv.DictReader(f))
+```
+✅ Pure, clean function. No extras. Ready to copy into production.
+
+Without negative prompting the model would have added pandas import,
+10 comments, example usage, and a main block.
+
+---
+
+## Example 4 — Negative Prompting for Evaluation Systems
+
+**Prompt:**
+```
+You are an LLM output evaluator.
+Evaluate whether the response below correctly answers the question.
+
+Question: "What is the capital of France?"
+Response: "Paris is the capital of France and a major European city."
+
+Rules:
+- Do not restate the question
+- Do not explain your evaluation process
+- Do not add suggestions for improvement
+- Do not use more than 1 sentence
+- Reply with verdict only: PASS or FAIL followed by one reason
+```
+**Output:**
+```
+PASS — The response correctly and directly identifies Paris
+       as the capital of France.
+```
+✅ Clean, parseable, consistent evaluation output.
+Your Python code can now check if the line starts with `PASS` or `FAIL`.
+
+---
+
+## Negative Prompting vs Instruction Prompting
+
+| | Instruction Prompting | Negative Prompting |
+|---|---|---|
+| **Focus** | What TO do | What NOT to do |
+| **Direction** | Positive commands | Restrictions & exclusions |
+| **Example** | "Write 3 sentences" | "Do not write more than 3 sentences" |
+| **Use together?** | ✅ Always | ✅ Always |
+
+> **Best practice: Always pair them together.**
+>
+> Instruction Prompting = **Gas pedal**
+> Negative Prompting = **Brakes**
+> You need both to drive properly.
+
+---
+
+## Most Common Negative Prompts Used in Production
+```
+- Do not hallucinate or make up information
+- Do not add information not present in the input
+- Do not use bullet points
+- Do not repeat the question
+- Do not add any explanation outside the JSON
+- Do not use markdown formatting
+- Do not add a conclusion or closing sentence
+- Do not apologize or use phrases like "I'm sorry"
+- Do not mention that you are an AI
+- Do not go beyond 100 words
+```
+
+---
+
+## Full Production Prompt — Everything Combined
+
+**Prompt:**
+```
+You are a strict customer data extraction engine.        (Role)
+
+Extract name, age and city from the text below.         (Instruction)
+
+Example 1: "I am John, 25, from Mumbai" →               (Few-Shot)
+{"name": "John", "age": 25, "city": "Mumbai"}
+
+Think carefully before extracting.                      (CoT)
+
+Reply ONLY in this JSON format:                         (Output Format)
+{
+  "name": "",
+  "age": 0,
+  "city": ""
+}
+
+Do not add explanation.                                 (Negative)
+Do not add markdown or code blocks.                     (Negative)
+Do not guess missing fields — use null instead.         (Negative)
+Do not include any text outside the JSON.               (Negative)
+
+Text: "Hey, my name is Priya, I just turned 29
+       and I'm based in Hyderabad."
+```
+**Output:**
+```json
+{
+  "name": "Priya",
+  "age": 29,
+  "city": "Hyderabad"
+}
+```
+✅ Perfect. Every time. At scale.
+
+---
+
+## 📝 One Line for Your Notes
+
+> **Negative Prompting = Explicitly tell the model what NOT to do.**
+> **Removes fluff, forces clean output, and makes production pipelines reliable.**
+> **Always pair with Instruction Prompting.**
+
+---
+
+## Updated Full Recap — 6 Types So Far
+
+| # | Type | One Line Summary |
+|---|------|-----------------|
+| 1 | **Zero-Shot** | No examples, just ask |
+| 2 | **Few-Shot** | Show examples, model follows your pattern |
+| 3 | **Chain-of-Thought** | Think step by step, shows reasoning |
+| 4 | **Role Prompting** | Give model an identity, controls behavior |
+| 5 | **Instruction Prompting** | Spell everything out, leave nothing to guess |
+| 6 | **Negative Prompting** | Block everything you don't want |
