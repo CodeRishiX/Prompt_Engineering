@@ -42,7 +42,112 @@ When it doesn't know something — it doesn't say *"I don't know."*
 It predicts what **sounds most plausible** and says it confidently.
 
 ---
+# Core Reasons Why LLMs Hallucinate
 
+---
+
+## Reason 1 — Knowledge Cutoff Date
+
+Every LLM has a **training cutoff date.**
+After that date — it knows nothing about the real world.
+```
+GPT-4      → Trained until early 2024
+Claude 3   → Trained until early 2024
+Your model → Has its own cutoff date
+```
+
+**Example:**
+```
+You ask:  "Who won the 2026 Cricket World Cup?"
+Model:    Was never trained on 2026 data
+Result:   Makes up a winner confidently ❌
+```
+
+> The model does not say *"I don't know."*
+> It predicts what sounds plausible and states it as fact.
+
+---
+
+## Reason 2 — Insufficient Training Data
+
+If a topic had very little data on the internet when the model
+was trained — the model has **weak knowledge** about it.
+```
+Strong data → Popular topics → Python, Football, History
+              Model answers well ✅
+
+Weak data   → Niche topics   → Your local startup,
+              rare diseases, internal company policies
+              Model guesses or fabricates ❌
+```
+
+> The less data the model saw about a topic —
+> the more it **hallucinates** about it.
+
+---
+
+## Reason 3 — Model Predicts Words, Not Facts
+
+This is the **most fundamental reason.**
+```
+LLM does NOT work like:
+Question → Search database → Return fact ✅
+
+LLM actually works like:
+Question → What word comes next? →
+           Next word → Next word → Next word ❌
+```
+
+> It is always predicting the **next most plausible token.**
+> It has no concept of **true or false.**
+> It only knows what sounds **statistically likely.**
+
+---
+
+## Reason 4 — Overconfidence by Design
+
+LLMs are trained to be **helpful and fluent.**
+Being helpful means giving an answer —
+even when they should say *"I don't know."*
+```
+Human expert:   "I'm not sure, let me verify that." ✅
+LLM by default: "The answer is X." (even when wrong) ❌
+```
+
+---
+
+## Reason 5 — Prompt is Vague or Incomplete
+
+When YOUR prompt leaves gaps —
+the model **fills them with imagination.**
+```
+❌ Vague Prompt:
+"Tell me about our company's revenue."
+
+Model has zero data about YOUR company.
+So it fills the gap → Hallucination ❌
+```
+```
+✅ Clear Prompt with Context:
+"Based on this data only: [revenue data]
+ What is our company's revenue?"
+
+Model uses YOUR data → No hallucination ✅
+```
+
+---
+
+## Quick Recap — All 5 Reasons
+
+| # | Reason | Root Cause |
+|---|--------|------------|
+| 1 | **Knowledge Cutoff** | Model wasn't trained on recent data |
+| 2 | **Insufficient Data** | Topic had very little training data |
+| 3 | **Predicts Words Not Facts** | No true/false — only next token |
+| 4 | **Overconfidence by Design** | Trained to always give an answer |
+| 5 | **Vague Prompt** | Gaps in prompt = gaps filled by imagination |
+
+---
 ## The 4 Types of Hallucination
 
 ### Type 1 — Factual Hallucination
