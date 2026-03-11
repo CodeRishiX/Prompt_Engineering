@@ -3,20 +3,13 @@
 
 ---
 
-## 📌 Table of Contents
-1. [What is RAG?](#1-what-is-rag)
-2. [The Problem RAG Solves](#2-the-problem-rag-solves)
-3. [Real Life Analogy](#3-real-life-analogy)
-4. [How RAG Works — Step by Step](#4-how-rag-works--step-by-step)
-5. [Vector Database — What It Is](#5-vector-database--what-it-is)
-6. [Without RAG vs With RAG](#6-without-rag-vs-with-rag)
-7. [RAG = Prompt Chaining + Retrieval](#7-rag--prompt-chaining--retrieval)
-8. [Simple RAG Code Example](#8-simple-rag-code-example)
-9. [RAG and Hallucination](#9-rag-and-hallucination)
-10. [Where RAG is Used in Real Products](#10-where-rag-is-used-in-real-products)
-11. [What to Learn Now vs Later](#11-what-to-learn-now-vs-later)
-12. [Master Summary](#12-master-summary)
+What is hallucination and how does RAG solve it?
 
+Ideal answer:
+
+Hallucination occurs when an LLM generates incorrect or fabricated information that is not grounded in real data. This happens because LLMs generate responses by predicting the next token based on probability rather than verifying factual correctness.
+
+Retrieval Augmented Generation (RAG) reduces hallucination by retrieving relevant documents from a vector database before generating the answer. The retrieved context is injected into the prompt, allowing the LLM to generate responses grounded in real data instead of relying only on its training knowledge.
 ---
 
 ## 1. What is RAG?
